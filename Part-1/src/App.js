@@ -2,10 +2,10 @@ import { useState } from "react";
 
 const History = (props) => {
   if (props.allClicks.length === 0) {
-    return (<div>This app is used by pressing the buttons</div>);
+    return <div>This app is used by pressing the buttons</div>;
   }
 
-  return(<div>Button press history: {props.allClicks.join(' ')}</div>);
+  return <div>Button press history: {props.allClicks.join(" ")}</div>;
 };
 
 const Button = ({ handleClick, text }) => (
