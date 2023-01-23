@@ -6,35 +6,42 @@ const Button = ({ onClick, name }) => {
 
 const StatisticLine = (props) => {
   return (
-    <p>
-      {props.text}: {props.value}
-    </p>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   );
 };
 
 const Statistics = ({ good, bad, neutral, all, positive, average }) => {
   if (all === 0) {
     return (
-      <div>
-        <h2>Statistics</h2>
-        No feedback given
-      </div>
+      <>
+       <h2>Statistics</h2>
+       <p>No feedback provided</p>
+      </>
     );
   }
 
   return (
-    <div>
-      <h2>Statistics</h2>
-      <StatisticLine text={"Good"} value={good} />
-      <StatisticLine text={"Bad"} value={bad} />
-      <StatisticLine text={"Neutral"} value={neutral} />
-      <StatisticLine text={"All"} value={all} />
-      <StatisticLine text={"Average"} value={isNaN(average) ? 0 : average} />
-      <StatisticLine
-        text={"Positive"}
-        value={isNaN(positive) ? 0 : `${positive}%`}
-      />
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <h2>Statistics</h2>
+          </td>
+        </tr>
+        <StatisticLine text={"Good"} value={good} />
+        <StatisticLine text={"Bad"} value={bad} />
+        <StatisticLine text={"Neutral"} value={neutral} />
+        <StatisticLine text={"All"} value={all} />
+        <StatisticLine text={"Average"} value={isNaN(average) ? 0 : average} />
+        <StatisticLine
+          text={"Positive"}
+          value={isNaN(positive) ? 0 : `${positive}%`}
+        />
+      </tbody>
+    </table>
   );
 };
 
