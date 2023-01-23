@@ -4,28 +4,36 @@ const Button = ({ onClick, name }) => {
   return <button onClick={onClick}>{name}</button>;
 };
 
+const StatisticLine = (props) => {
+  return (
+    <p>
+      {props.text}: {props.value}
+    </p>
+  );
+};
+
 const Statistics = ({ good, bad, neutral, all, positive, average }) => {
-
-  if(all === 0){
-
+  if (all === 0) {
     return (
       <div>
         <h2>Statistics</h2>
         No feedback given
       </div>
     );
-
   }
 
   return (
     <div>
       <h2>Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Bad: {bad}</p>
-      <p>Neutral: {neutral}</p>
-      <p>All: {all}</p>
-      <p>Average: {isNaN(average) ? 0 : average}</p>
-      <p>Positive: {isNaN(positive) ? 0 : positive}%</p>
+      <StatisticLine text={"Good"} value={good} />
+      <StatisticLine text={"Bad"} value={bad} />
+      <StatisticLine text={"Neutral"} value={neutral} />
+      <StatisticLine text={"All"} value={all} />
+      <StatisticLine text={"Average"} value={isNaN(average) ? 0 : average} />
+      <StatisticLine
+        text={"Positive"}
+        value={isNaN(positive) ? 0 : `${positive}%`}
+      />
     </div>
   );
 };
@@ -70,8 +78,8 @@ const App = () => {
         bad={feedback.bad}
         neutral={feedback.neutral}
         all={feedback.all}
-        average={(feedback.good+feedback.bad+feedback.neutral)/3}
-        positive={parseInt((feedback.good/feedback.all)*100)}
+        average={(feedback.good + feedback.bad + feedback.neutral) / 3}
+        positive={parseInt((feedback.good / feedback.all) * 100)}
       />
     </div>
   );
