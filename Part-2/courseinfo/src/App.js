@@ -2,7 +2,7 @@ import Content from "./components/Content";
 
 const App = () => {
   const course = {
-    id: 1,
+    id: 100,
     name: "Half Stack application development",
     parts: [
       {
@@ -20,13 +20,28 @@ const App = () => {
         exercises: 14,
         id: 3,
       },
+      {
+        name: "Mapping baby",
+        exercises: 4,
+        id: 4,
+      },
+      {
+        name: "Modules baby",
+        exercises: 17,
+        id: 5,
+      },
+      {
+        name: "Web Developer's Oath",
+        exercises: 69,
+        id: 6,
+      },
     ],
   };
 
   return (
     <div>
       <h1>Half Stack Application Development</h1>
-      <Content course={course.parts} />
+      <Content key={course.id} course={course.parts} />
     </div>
   );
 };
