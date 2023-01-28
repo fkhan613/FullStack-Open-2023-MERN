@@ -2,8 +2,7 @@ import Part from "./Part";
 import Total from "./Total";
 
 //create the content component
-const Content = ({ course }) => {
-  let parts = course;
+const Content = ({ parts }) => {
 
   return (
     <div>

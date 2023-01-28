@@ -1,5 +1,5 @@
 const Total = ({ parts }) => {
-  let total = parts.reduce((acc, obj, i) => {
+  let total = parts.reduce((acc, obj) => {
     return acc + obj.exercises;
   }, 0);
 
