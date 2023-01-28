@@ -47,7 +47,6 @@ const Statistics = ({ good, bad, neutral, all, positive, average }) => {
 
 const App = () => {
   // save clicks of each button to its own state
-
   const [feedback, setFeedback] = useState({
     good: 0,
     bad: 0,
