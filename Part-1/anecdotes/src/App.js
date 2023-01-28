@@ -4,7 +4,6 @@ const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>;
 };
 
-
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -17,7 +16,6 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
-  
   //sets a new index
   const handleClick = () => {
     let newIndex = Math.floor(Math.random() * (anecdotes.length - 0) + 0);
@@ -26,30 +24,29 @@ const App = () => {
     while (newIndex === selected) {
       newIndex = Math.floor(Math.random() * (anecdotes.length - 0) + 0);
     }
-    
+
     setSelected(newIndex);
   };
 
   const handleVote = () => {
+    let newPoints = [...points];
 
-    let newPoints = [...points]
+    newPoints[selected] += 1;
 
-    newPoints[selected] += 1
-
-    setPoints(newPoints)
-  }
+    setPoints(newPoints);
+  };
 
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
-  
+
   return (
     <div>
-    <h1>Anecdote of The Day</h1>
+      <h1>Anecdote of The Day</h1>
       {anecdotes[selected]}
-      <br/>
+      <br />
       <p>Upvotes: {points[selected]}</p>
       <br />
-      <Button onClick={handleVote} text='Upvote' />
+      <Button onClick={handleVote} text="Upvote" />
       <Button onClick={handleClick} text="Next Anecdote" />
       <h1>Anecdote With Most Upvotes</h1>
       {anecdotes[points.indexOf(Math.max(...points))]}
