@@ -1,13 +1,11 @@
 import { useState } from "react";
 
-const Button = ({onClick, text}) =>{
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>;
+};
 
-  return <button onClick={onClick}>{text}</button>
-
-}
 
 const App = () => {
-  const [selected, setSelected] = useState(0);
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -19,31 +17,41 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  
   //sets a new index
-  const handleClick = () =>{
-
+  const handleClick = () => {
     let newIndex = Math.floor(Math.random() * (anecdotes.length - 0) + 0);
 
     //avoid dupes
-    while(newIndex === selected){
+    while (newIndex === selected) {
       newIndex = Math.floor(Math.random() * (anecdotes.length - 0) + 0);
     }
-
-    console.log(newIndex)
-
+    
     setSelected(newIndex);
+  };
+
+  const handleVote = () => {
+
+    let newPoints = [...points]
+
+    newPoints[selected] += 1
+
+    setPoints(newPoints)
   }
 
-
-  return (    
+  const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
+  
+  return (
     <div>
       {anecdotes[selected]}
-      <br/><br/>
-      <Button onClick={handleClick} text='Next Anecdote'/>
+      <br/>
+      <p>Upvotes: {points[selected]}</p>
+      <br />
+      <Button onClick={handleVote} text='Upvote' />
+      <Button onClick={handleClick} text="Next Anecdote" />
     </div>
   );
-
-
 };
 
 export default App;
