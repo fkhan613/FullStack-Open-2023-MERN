@@ -2,13 +2,16 @@ import { useState } from "react";
 import Person from "./compenents/Person";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "(613) 745-7489" },
+  ]);
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (newName === "") {
+    if (newName === "" || newNumber === "") {
       window.alert("Missing Fields");
       return false;
     }
@@ -16,15 +19,19 @@ const App = () => {
     if (isDuplicate()) {
       window.alert(`${newName} already exists in the phonebook`);
       setNewName("");
+      setNewNumber("");
+
       return false;
     }
 
     const newPerson = {
       name: newName,
+      number: newNumber,
     };
 
     setPersons(persons.concat(newPerson));
     setNewName("");
+    setNewNumber("");
   };
 
   const isDuplicate = () => {
@@ -40,10 +47,17 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          Name:{" "}
+          Name:{""}
           <input
             value={newName}
             onChange={(event) => setNewName(event.target.value)}
+          />
+        </div>
+        <div>
+          Phone Number: {""}
+          <input
+            value={newNumber}
+            onChange={(event) => setNewNumber(event.target.value)}
           />
         </div>
         <div>
@@ -54,7 +68,7 @@ const App = () => {
 
       <div>
         {persons.map((person) => (
-          <Person key={person.name} name={person.name} />
+          <Person key={person.name} name={person.name} number={person.number} />
         ))}
       </div>
     </div>
