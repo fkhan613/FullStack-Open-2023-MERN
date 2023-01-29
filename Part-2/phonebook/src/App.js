@@ -8,9 +8,15 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if(newName === ""){
-       window.alert("Missing Fields") 
-       return false
+    if (newName === "") {
+      window.alert("Missing Fields");
+      return false;
+    }
+
+    if (isDuplicate()) {
+      window.alert(`${newName} already exists in the phonebook`);
+      setNewName("");
+      return false;
     }
 
     const newPerson = {
@@ -18,7 +24,15 @@ const App = () => {
     };
 
     setPersons(persons.concat(newPerson));
-    setNewName("")
+    setNewName("");
+  };
+
+  const isDuplicate = () => {
+    if (persons.filter((person) => newName === person.name).length > 0) {
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -39,9 +53,10 @@ const App = () => {
       <h2>Numbers</h2>
 
       <div>
-        {persons.map((person) => <Person key={person.name} name={person.name} />)}
+        {persons.map((person) => (
+          <Person key={person.name} name={person.name} />
+        ))}
       </div>
-
     </div>
   );
 };
