@@ -3,7 +3,6 @@ import Total from "./Total";
 
 //create the content component
 const Content = ({ parts }) => {
-
   return (
     <div>
       {parts.map((part) => (
