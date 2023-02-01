@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Person from "./compenents/Person";
+import Filter from "./compenents/Filter";
+import AddPersonForm from "./compenents/AddPersonForm";
+import Contacts from "./compenents/Contacts";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -22,8 +24,7 @@ const App = () => {
 
     if (isDuplicate()) {
       window.alert(`${newName} already exists in the phonebook`);
-      setNewName("");
-      setNewNumber("");
+      resetFields();
 
       return false;
     }
@@ -34,8 +35,13 @@ const App = () => {
     };
 
     setPersons(persons.concat(newPerson));
+    resetFields();
+  };
+
+  const resetFields = () => {
     setNewName("");
     setNewNumber("");
+    setSearchQuery("");
   };
 
   const isDuplicate = () => {
@@ -49,47 +55,24 @@ const App = () => {
   const peopleToShow =
     searchQuery === ""
       ? persons
-      : persons.filter(
-          (person) => person.name.toLowerCase().includes(searchQuery.toLowerCase())
+      : persons.filter((person) =>
+          person.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Search:{""}
-        <input
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-        ></input>
-      </div>
+      <Filter searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <h2>Add a New Contact</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          Name: {""}
-          <input
-            value={newName}
-            onChange={(event) => setNewName(event.target.value)}
-          />
-        </div>
-        <div>
-          Phone Number: {""}
-          <input
-            value={newNumber}
-            onChange={(event) => setNewNumber(event.target.value)}
-          />
-        </div>
-        <div>
-          <button type="submit">Add</button>
-        </div>
-      </form>
+      <AddPersonForm
+        addPerson={addPerson}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+      />
       <h2>Numbers</h2>
-
-      <div>
-        {peopleToShow.map((person) => (
-          <Person key={person.name} name={person.name} number={person.number} />
-        ))}
-      </div>
+      <Contacts peopleToShow={peopleToShow} />
     </div>
   );
 };
