@@ -10,24 +10,25 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
   const getUsers = () => {
     axios.get(API_URL).then((res) => {
       setPersons(res.data);
     });
   };
 
+  useEffect(getUsers, []);
+
   const insertUser = (user) => {
     axios
       .post(API_URL, user)
       .then(function (response) {
-        console.log(response);
+        setPersons(persons.concat(user));
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-
-  useEffect(getUsers, []);
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -49,7 +50,6 @@ const App = () => {
       number: newNumber,
     };
 
-    setPersons(persons.concat(newPerson))
     insertUser(newPerson);
     resetFields();
   };
