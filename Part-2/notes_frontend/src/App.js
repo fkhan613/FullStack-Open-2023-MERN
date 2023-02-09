@@ -3,7 +3,6 @@ import Note from "./components/Note";
 import noteService from "./services/notes";
 
 const App = (props) => {
-  const APP_URL = "http://localhost:3001/notes";
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
