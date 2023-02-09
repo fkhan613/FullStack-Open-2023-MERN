@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./compenents/Filter";
 import AddPersonForm from "./compenents/AddPersonForm";
 import Contacts from "./compenents/Contacts";
+import contactService from "./services/contacts";
 
 const App = () => {
   const API_URL = "http://localhost:3001/persons";
@@ -11,24 +11,16 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getUsers = () => {
-    axios.get(API_URL).then((res) => {
-      setPersons(res.data);
-    });
-  };
-
-  useEffect(getUsers, []);
-
-  const insertUser = (user) => {
-    axios
-      .post(API_URL, user)
-      .then(function (response) {
-        setPersons(persons.concat(user));
-      })
-      .catch(function (error) {
-        console.log(error);
+  useEffect(() => {
+    contactService
+      .getAll()
+      .then((contacts) => setPersons(contacts))
+      .catch((error) => {
+        console.log(
+          `There was an error retrieving the contacts from the server. Error ${error}`
+        );
       });
-  };
+  }, []);
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -50,7 +42,11 @@ const App = () => {
       number: newNumber,
     };
 
-    insertUser(newPerson);
+    contactService.insert(newPerson).then((newContact) =>{
+      let newContacts = [...persons].concat(newContact);
+      setPersons(newContacts); 
+    });
+    
     resetFields();
   };
 
