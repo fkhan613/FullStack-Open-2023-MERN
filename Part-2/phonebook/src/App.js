@@ -5,7 +5,6 @@ import Contacts from "./compenents/Contacts";
 import contactService from "./services/contacts";
 
 const App = () => {
-  const API_URL = "http://localhost:3001/persons";
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -42,12 +41,26 @@ const App = () => {
       number: newNumber,
     };
 
-    contactService.insert(newPerson).then((newContact) =>{
+    contactService.insert(newPerson).then((newContact) => {
       let newContacts = [...persons].concat(newContact);
-      setPersons(newContacts); 
+      setPersons(newContacts);
     });
-    
+
     resetFields();
+  };
+
+  const remove = (person) => {
+    if (window.confirm(`Are you sure you want to delete: ${person.name}?`)) {
+      contactService
+        .remove(person.id)
+        .catch((error) =>
+          console.log(
+            `Error occured attempting to delete the record. Error: ${error}`
+          )
+        );
+
+      setPersons(persons.filter((p) => p.id !== person.id));
+    }
   };
 
   const resetFields = () => {
@@ -84,7 +97,7 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Contacts peopleToShow={peopleToShow} />
+      <Contacts peopleToShow={peopleToShow} remove={remove} />
     </div>
   );
 };
