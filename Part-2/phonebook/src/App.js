@@ -29,24 +29,43 @@ const App = () => {
       return false;
     }
 
-    if (isDuplicate()) {
-      window.alert(`${newName} already exists in the phonebook`);
-      resetFields();
+    const duplicate = isDuplicate();
 
-      return false;
+    if (duplicate) {
+      if (
+        window.confirm(
+          `${newName} already exists in out database, would you like to update the number?`
+        )
+      ) {
+        update(duplicate);
+      }
+    } else {
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+      };
+
+      insert(newPerson);
     }
 
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-    };
-
-    contactService.insert(newPerson).then((newContact) => {
-      let newContacts = [...persons].concat(newContact);
-      setPersons(newContacts);
-    });
-
     resetFields();
+  };
+
+  const update = (contact) => {
+    contactService
+      .update(contact[0].id, contact[0].name, newNumber)
+      .then((updatedContact) => {
+        setPersons(persons.filter((p) => p.id !== updatedContact.id).concat(updatedContact));
+      })
+      .catch((error) =>
+        console.log(`There was an error updating the contact. Error: ${error}`)
+      );
+  };
+
+  const insert = (newPerson) => {
+    contactService.insert(newPerson).then((newContact) => {
+      setPersons([...persons].concat(newContact));
+    });
   };
 
   const remove = (person) => {
@@ -70,11 +89,9 @@ const App = () => {
   };
 
   const isDuplicate = () => {
-    if (persons.filter((person) => newName === person.name).length > 0) {
-      return true;
-    }
+    const duplicate = persons.filter((person) => newName === person.name);
 
-    return false;
+    return duplicate.length > 0 ? duplicate : false;
   };
 
   const peopleToShow =
