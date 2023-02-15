@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import noteService from "./services/notes";
+import Notification from "./components/Notification";
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
+  const [errorMessgae, setErrorMessage] = useState('Some error occured')
 
   useEffect(() => {
     noteService.getAll().then((notes) => {
@@ -23,7 +25,12 @@ const App = (props) => {
         setNotes(notes.map((note) => (note.id !== id ? note : updatedNote)));
       })
       .catch((error) => {
-        alert(`The note ${note.content} was already deleted from the server`);
+        setErrorMessage(
+          `Note '${note.content}' was already removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)        
         setNotes(notes.filter((n) => n.id !== id));
       });
   };
