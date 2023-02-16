@@ -3,6 +3,22 @@ import Note from "./components/Note";
 import noteService from "./services/notes";
 import Notification from "./components/Notification";
 
+const Footer = () => {
+  const footerStyle = {
+    color: "green",
+    fontStyle: "italic",
+    fontSize: 16,
+  };
+  return (
+    <div style={footerStyle}>
+      <br />
+      <em>
+        Note app, Department of Computer Science, University of Helsinki 2022
+      </em>
+    </div>
+  );
+};
+
 const App = (props) => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
@@ -59,6 +75,7 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification/>
       <button onClick={() => setShowAll(!showAll)}>
         Show {showAll ? "Important" : "All"}
       </button>{" "}
@@ -75,6 +92,7 @@ const App = (props) => {
         <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
+      <Footer/>
     </div>
   );
 };
