@@ -3,12 +3,15 @@ import Filter from "./compenents/Filter";
 import AddPersonForm from "./compenents/AddPersonForm";
 import Contacts from "./compenents/Contacts";
 import contactService from "./services/contacts";
+import Notification from "./compenents/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [message, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
 
   useEffect(() => {
     contactService
@@ -55,7 +58,17 @@ const App = () => {
     contactService
       .update(contact[0].id, contact[0].name, newNumber)
       .then((updatedContact) => {
-        setPersons(persons.filter((p) => p.id !== updatedContact.id).concat(updatedContact));
+        setPersons(
+          persons
+            .filter((p) => p.id !== updatedContact.id)
+            .concat(updatedContact)
+        );
+        setMessage(`${updatedContact.name} updated!`);
+        setMessageType("success");
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 2000);
       })
       .catch((error) =>
         console.log(`There was an error updating the contact. Error: ${error}`)
@@ -65,6 +78,11 @@ const App = () => {
   const insert = (newPerson) => {
     contactService.insert(newPerson).then((newContact) => {
       setPersons([...persons].concat(newContact));
+      setMessage(`${newPerson.name} added!`);
+      setMessageType("success");
+      setTimeout(() => {
+        setMessage(null);
+      }, 2000);
     });
   };
 
@@ -72,11 +90,18 @@ const App = () => {
     if (window.confirm(`Are you sure you want to delete: ${person.name}?`)) {
       contactService
         .remove(person.id)
-        .catch((error) =>
-          console.log(
-            `Error occured attempting to delete the record. Error: ${error}`
-          )
-        );
+        .then(() => {
+          setMessage(`${person.name} removed!`);
+          setMessageType("success");
+
+          setTimeout(() => {
+            setMessage(null);
+          }, 2000);
+        })
+        .catch((error) => {
+          setMessage(`${person.name} has already been removed!`);
+          setMessageType("error");
+        });
 
       setPersons(persons.filter((p) => p.id !== person.id));
     }
@@ -104,6 +129,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {message !== null ? (
+        <Notification message={message} type={messageType} />
+      ) : (
+        ""
+      )}
       <Filter searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <h2>Add a New Contact</h2>
       <AddPersonForm
