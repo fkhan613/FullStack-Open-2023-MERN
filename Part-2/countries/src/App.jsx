@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import countryService from "./services/countries";
+import InputBox from "./components/inputBox";
 import "./App.css";
 
 function App() {
@@ -25,14 +26,11 @@ function App() {
 
   return (
     <div>
-      <label htmlFor="search">Search for countries: </label>
-      <input
-        name="search"
-        value={searchQuery}
-        onChange={(event) => {
-          setSearchQuery(event.target.value);
-        }}
-      ></input>
+      <InputBox
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        placeholder="Search for Countries"
+      ></InputBox>
     </div>
   );
 }
