@@ -5,12 +5,22 @@
   text-align: center;
 }
 
+li {
+  list-style-type: none;
+}
+
+img {
+  width: 30%;
+  margin: 1em;
+  object-fit: cover;
+}
+
 .form__group {
   position: relative;
   padding: 20px 0 0;
   margin-top: 10px;
   width: 100%;
-  max-width:500px;
+  max-width: 500px;
 }
 
 .form__field {
@@ -64,6 +74,7 @@
 }
 
 /* reset input */
-.form__field:required, .form__field:invalid {
+.form__field:required,
+.form__field:invalid {
   box-shadow: none;
 }
