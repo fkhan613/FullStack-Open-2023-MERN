@@ -1,7 +1,8 @@
 import Country from "./Country";
+import { useState } from "react";
 
 const Countries = ({ countries }) => {
-
+  const [showMore, setShowMore] = useState(false);
 
   if (countries == null) {
     return null;
@@ -19,6 +20,8 @@ const Countries = ({ countries }) => {
             country={country}
             showBox={true}
             key={country.name}
+            showMore={showMore}
+            setShowMore={setShowMore}
           ></Country>
         ))}
       </div>

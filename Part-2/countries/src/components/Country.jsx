@@ -1,9 +1,9 @@
-const Country = ({ country, showBox }) => {
+const Country = ({ country, showBox, showMore, setShowMore }) => {
   if (showBox) {
     return (
       <>
-          <li>{country.name}</li>
-          <button>Show More</button>
+        <li>{country.name}</li>
+        <button onClick={() => setShowMore(!showMore)} >{showMore ? "Show Less" : "Show More"}</button>
       </>
     );
   } else {

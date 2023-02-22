@@ -34,7 +34,9 @@ function App() {
         setSearchQuery={setSearchQuery}
         placeholder="Search for Countries"
       ></InputBox>
-      <Countries countries={countries}></Countries>
+      <Countries
+        countries={countries}
+      ></Countries>
     </div>
   );
 }
