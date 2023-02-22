@@ -1,9 +1,14 @@
-const Country = ({ country, showBox, showMore, setShowMore }) => {
+const Country = ({ country, showBox, expandedCountires, handleClick }) => {
   if (showBox) {
     return (
       <>
         <li>{country.name}</li>
-        <button onClick={() => setShowMore(!showMore)} >{showMore ? "Show Less" : "Show More"}</button>
+        <button
+          //search for the object with the same country name, update the showMore to the opposite variable
+          onClick={() => handleClick(handleClick)}
+        >
+          {expandedCountires[0].showMore ? "Show Less" : "Show More"}
+        </button>
       </>
     );
   } else {

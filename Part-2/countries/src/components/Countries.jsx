@@ -2,7 +2,12 @@ import Country from "./Country";
 import { useState } from "react";
 
 const Countries = ({ countries }) => {
-  const [showMore, setShowMore] = useState(false);
+  const [expandedCountires, setExpandedCountries] = useState([{}]);
+  console.log(expandedCountires);
+
+  const handleClick = (event) =>{
+
+  }
 
   if (countries == null) {
     return null;
@@ -20,8 +25,8 @@ const Countries = ({ countries }) => {
             country={country}
             showBox={true}
             key={country.name}
-            showMore={showMore}
-            setShowMore={setShowMore}
+            expandedCountires={expandedCountires}
+            handleClick={handleClick}
           ></Country>
         ))}
       </div>
