@@ -20,9 +20,10 @@ function App() {
           console.log(
             `There was an error searching for the country: ${searchQuery} as it does not exist.`
           );
+          setCountires(null);
         });
     } else {
-      setCountires([]);
+      setCountires(null);
     }
   }, [searchQuery]);
 
