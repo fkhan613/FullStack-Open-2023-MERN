@@ -7,7 +7,7 @@ const InputBox = ({
     <div className="form__group field">
       <input
         required=""
-        placeholder="Name"
+        placeholder="Country"
         className="form__field"
         type="input"
         value={searchQuery}
