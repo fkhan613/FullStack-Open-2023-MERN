@@ -1,28 +1,34 @@
+import ExtraCountryFields from "./ExtraCountryFields";
+
 const Country = ({ country, showBox, expandedCountires, handleClick }) => {
   if (showBox) {
+    let expanded = expandedCountires.filter(
+      (expandedCountry) =>
+        expandedCountry.name.toLowerCase() === country.name.toLowerCase()
+    ).length;
+
     return (
       <>
-        <li>{country.name}</li>
-        <button
-          //search for the object with the same country name, update the showMore to the opposite variable
-          onClick={() => handleClick(handleClick)}
-        >
-          {expandedCountires[0].showMore ? "Show Less" : "Show More"}
+        <strong>
+          <li>{country.name}</li>
+        </strong>
+
+        {expanded == 0 ? (
+          ""
+        ) : (
+          <ExtraCountryFields country={country}></ExtraCountryFields>
+        )}
+        <button onClick={handleClick} data-name={country.name}>
+          {expanded == 0 ? "Show More" : "Show Less"}
         </button>
       </>
     );
   } else {
     return (
-      <div>
+      <>
         <h2>{country.name}</h2>
-        <p>Capital: {country.capital}</p>
-        <p>Region: {country.region}</p>
-        <h3>Languages:</h3>
-        {country.languages.map((lang) => (
-          <li key={lang.name}>{lang.name}</li>
-        ))}
-        <img src={country.flag} alt="Country Flag"></img>
-      </div>
+        <ExtraCountryFields country={country} ></ExtraCountryFields>
+      </>
     );
   }
 };

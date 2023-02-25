@@ -13,6 +13,7 @@ img {
   width: 30%;
   margin: 1em;
   object-fit: cover;
+  align-self: center;
 }
 
 .countries{

@@ -2,12 +2,27 @@ import Country from "./Country";
 import { useState } from "react";
 
 const Countries = ({ countries }) => {
-  const [expandedCountires, setExpandedCountries] = useState([{}]);
-  console.log(expandedCountires);
+  const [expandedCountires, setExpandedCountries] = useState([]);
 
-  const handleClick = (event) =>{
+  const handleClick = (event) => {
+    let name = event.target.getAttribute("data-name");
 
-  }
+    if (expandedCountires.some((country) => country.name === name)) {
+      
+      let newList = expandedCountires.filter((country) =>
+      country.name !== name
+      ? country
+      : null
+      );
+
+      setExpandedCountries(newList);
+    } else {
+
+      setExpandedCountries(
+        expandedCountires.concat({ name: name, showMore: true })
+      );
+    }
+  };
 
   if (countries == null) {
     return null;
@@ -36,7 +51,11 @@ const Countries = ({ countries }) => {
   if (countries.length == 1) {
     return (
       <div>
-        <Country country={countries[0]} key={countries[0].name} showBox={false}></Country>
+        <Country
+          country={countries[0]}
+          key={countries[0].name}
+          showBox={false}
+        ></Country>
       </div>
     );
   }
