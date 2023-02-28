@@ -38,7 +38,9 @@ const isDuplicate = (newName) => {
 };
 
 app.get("/", (request, response) => {
-  response.send("<h1>You want people? Go through the api route</h1>");
+  response.send(
+    "<h1>You want people? Go through the api route</h1> <br><br> <a href='http://localhost:3001/api/people/'>Click here to be redirected</a>"
+  );
 });
 
 app.get("/api/people", (request, response) => {
