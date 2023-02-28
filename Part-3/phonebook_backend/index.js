@@ -27,8 +27,14 @@ let people = [
 ];
 
 const generateId = () => {
-
   return Math.floor(Math.random() * 1000000000000000000);
+};
+
+const isDuplicate = (newName) => {
+  console.log(newName);
+  const duplicate = people.filter((person) => newName === person.name);
+
+  return duplicate.length > 0 ? duplicate : false;
 };
 
 app.get("/", (request, response) => {
@@ -75,12 +81,18 @@ app.post("/api/people", (request, response) => {
     return response.status(400).json({
       error: "name or number missing",
     });
+  } 
+
+  if(isDuplicate(body.name)){
+        return response.status(400).json({
+          error: "name must be unique",
+        });
   }
 
   const person = {
+    id: generateId(),
     name: body.name,
     number: body.number,
-    id: generateId(),
   };
 
   people = people.concat(person);

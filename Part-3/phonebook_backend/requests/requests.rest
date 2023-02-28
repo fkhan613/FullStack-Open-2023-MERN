@@ -5,7 +5,7 @@ POST http://localhost:3001/api/people/ HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Farhan Khan",
+    "name": "Mary Poppendieck",
     "number": "613-859-9685"
 }
 
