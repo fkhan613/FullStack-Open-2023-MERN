@@ -4,28 +4,26 @@ const app = express();
 app.use(express.json());
 
 let people = [
-  [
-    {
-      id: 1,
-      name: "Arto Hellas",
-      number: "040-123456",
-    },
-    {
-      id: 2,
-      name: "Ada Lovelace",
-      number: "39-44-5323523",
-    },
-    {
-      id: 3,
-      name: "Dan Abramov",
-      number: "12-43-234345",
-    },
-    {
-      id: 4,
-      name: "Mary Poppendieck",
-      number: "39-23-6423122",
-    },
-  ],
+  {
+    id: 1,
+    name: "Arto Hellas",
+    number: "040-123456",
+  },
+  {
+    id: 2,
+    name: "Ada Lovelace",
+    number: "39-44-5323523",
+  },
+  {
+    id: 3,
+    name: "Dan Abramov",
+    number: "12-43-234345",
+  },
+  {
+    id: 4,
+    name: "Mary Poppendieck",
+    number: "39-23-6423122",
+  },
 ];
 
 const generateId = () => {
@@ -39,6 +37,17 @@ app.get("/", (request, response) => {
 
 app.get("/api/people", (request, response) => {
   response.json(people);
+});
+
+app.get("/api/info", (request, response) => {
+
+  let dateRequested = new Date()
+
+  response
+    .status(200)
+    .send(
+      `Phonebook has info for for ${people.length} people <br><br> ${dateRequested} `
+    );
 });
 
 app.get("/api/people/:id", (request, response) => {
