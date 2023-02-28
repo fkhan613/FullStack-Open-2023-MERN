@@ -1,13 +1,13 @@
 GET http://localhost:3001/api/people
 
 ###
-POST http://localhost:3001/api/notes/ HTTP/1.1
+POST http://localhost:3001/api/people/ HTTP/1.1
 content-type: application/json
 
 {
-    "content": "Yoyoyoyoyoyo notes baby",
-    "important": true
+    "name": "Farhan Khan",
+    "number": "613-859-9685"
 }
 
 ###
-DELETE http://localhost:3001/api/people/4 HTTP/1.1
+DELETE http://localhost:3001/api/people/ HTTP/1.1

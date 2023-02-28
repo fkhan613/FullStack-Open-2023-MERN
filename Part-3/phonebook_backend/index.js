@@ -27,8 +27,8 @@ let people = [
 ];
 
 const generateId = () => {
-  const maxId = people.length > 0 ? Math.max(...people.map((n) => n.id)) : 0;
-  return maxId + 1;
+
+  return Math.floor(Math.random() * 1000000000000000000);
 };
 
 app.get("/", (request, response) => {
@@ -40,8 +40,7 @@ app.get("/api/people", (request, response) => {
 });
 
 app.get("/api/info", (request, response) => {
-
-  let dateRequested = new Date()
+  let dateRequested = new Date();
 
   response
     .status(200)
@@ -72,15 +71,15 @@ app.delete("/api/people/:id", (request, response) => {
 app.post("/api/people", (request, response) => {
   const body = request.body;
 
-  if (!body.content) {
+  if (!body.name || !body.number) {
     return response.status(400).json({
-      error: "content missing",
+      error: "name or number missing",
     });
   }
 
   const person = {
-    content: body.content,
-    important: body.important || false,
+    name: body.name,
+    number: body.number,
     id: generateId(),
   };
 
