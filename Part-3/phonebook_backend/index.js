@@ -1,7 +1,9 @@
 const express = require("express");
+var morgan = require("morgan");
 const app = express();
 
 app.use(express.json());
+app.use(morgan('tiny'));
 
 let people = [
   {
@@ -31,7 +33,6 @@ const generateId = () => {
 };
 
 const isDuplicate = (newName) => {
-  console.log(newName);
   const duplicate = people.filter((person) => newName === person.name);
 
   return duplicate.length > 0 ? duplicate : false;
@@ -83,12 +84,12 @@ app.post("/api/people", (request, response) => {
     return response.status(400).json({
       error: "name or number missing",
     });
-  } 
+  }
 
-  if(isDuplicate(body.name)){
-        return response.status(400).json({
-          error: "name must be unique",
-        });
+  if (isDuplicate(body.name)) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
   }
 
   const person = {
