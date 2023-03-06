@@ -1,8 +1,12 @@
 const express = require("express");
-var morgan = require("morgan");
+const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+app.use(express.static("build"));
+
 
 morgan.token("type", function (req, res) {
   return JSON.stringify(req.body);
@@ -61,7 +65,7 @@ app.get("/api/info", (request, response) => {
   response
     .status(200)
     .send(
-      `Phonebook has info for for ${people.length} people <br><br> ${dateRequested} `
+      `Phonebook has info for ${people.length} people <br><br> ${dateRequested} `
     );
 });
 
