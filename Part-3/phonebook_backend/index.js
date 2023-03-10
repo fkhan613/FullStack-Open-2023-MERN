@@ -1,12 +1,13 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const Person = require("./models/person");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("build"));
-
 
 morgan.token("type", function (req, res) {
   return JSON.stringify(req.body);
@@ -44,9 +45,11 @@ const generateId = () => {
 };
 
 const isDuplicate = (newName) => {
-  const duplicate = people.filter((person) => newName === person.name);
+  existingPerson = Person.find({ name: newName }).then((person) => {
+    return person;
+  });
 
-  return duplicate.length > 0 ? duplicate : false;
+  console.log(existingPerson);
 };
 
 app.get("/", (request, response) => {
@@ -56,7 +59,9 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/people", (request, response) => {
-  response.json(people);
+  Person.find({}).then((people) => {
+    response.json(people);
+  });
 });
 
 app.get("/api/info", (request, response) => {
@@ -82,9 +87,7 @@ app.get("/api/people/:id", (request, response) => {
 
 app.delete("/api/people/:id", (request, response) => {
   const id = Number(request.params.id);
-
   people = people.filter((person) => person.id !== id);
-
   response.status(204).end("person deleted successfully!");
 });
 
@@ -98,20 +101,17 @@ app.post("/api/people", (request, response) => {
   }
 
   if (isDuplicate(body.name)) {
-    return response.status(400).json({
-      error: "name must be unique",
-    });
+    console.log("duplicate found");
   }
 
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  people = people.concat(person);
-
-  response.json(person);
+  person.save().then((savedPerson) => {
+    return response.json(savedPerson);
+  });
 });
 
 const PORT = 3001;
