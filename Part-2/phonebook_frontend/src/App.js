@@ -92,24 +92,26 @@ const App = () => {
         .remove(person.id)
         .then(() => {
           setMessage(`${person.name} removed!`);
+          console.log('updated message');
           setMessageType("success");
+          console.log("updated message type");
+          setPersons(persons.filter((p) => p.id !== person.id));
+          console.log('removed user from state');
 
           setTimeout(() => {
             setMessage(null);
-          }, 2000);
+          }, 2000); 
         })
         .catch((error) => {
           setMessage(`${person.name} has already been removed!`);
           setMessageType("error");
         });
-
-      setPersons(persons.filter((p) => p.id !== person.id));
     }
   };
 
   const resetFields = () => {
     setNewName("");
-    setNewNumber("");
+    setNewNumber(""); 
     setSearchQuery("");
   };
 
