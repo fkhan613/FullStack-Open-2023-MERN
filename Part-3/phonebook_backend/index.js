@@ -3,7 +3,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/person");
-const { request, response } = require("express");
 const app = express();
 
 app.use(cors());
@@ -99,7 +98,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
-const PORT = 3001;
+const PORT = process.env.MONGODB_URI | 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
