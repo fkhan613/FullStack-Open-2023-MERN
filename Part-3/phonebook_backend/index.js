@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/person");
+const { request, response } = require("express");
 const app = express();
 
 app.use(cors());
@@ -24,19 +25,11 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/people", (request, response) => {
-  Person.find({}).then((people) => {
-    response.json(people);
-  });
-});
-
-app.get("/api/info", (request, response) => {
-  let dateRequested = new Date();
-
-  response
-    .status(200)
-    .send(
-      `Phonebook has info for ${people.length} people <br><br> ${dateRequested} `
-    );
+  Person.find({})
+    .then((people) => {
+      response.json(people);
+    })
+    .catch((error) => next(error));
 });
 
 app.delete("/api/people/:id", (request, response, next) => {
@@ -44,7 +37,7 @@ app.delete("/api/people/:id", (request, response, next) => {
     .then((result) => {
       response.status(204).end("person deleted successfully!");
     })
-    .catch((error) => console.log(error));
+    .catch((error) => next(error));
 });
 
 app.post("/api/people", (request, response) => {
@@ -56,10 +49,6 @@ app.post("/api/people", (request, response) => {
     });
   }
 
-  if (isDuplicate(body.name)) {
-    console.log("duplicate found");
-  }
-
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -69,6 +58,38 @@ app.post("/api/people", (request, response) => {
     return response.json(savedPerson);
   });
 });
+
+app.put("/api/people/:id", (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch((error) => next(error));
+});
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+app.use(unknownEndpoint);
+app.use(errorHandler);
 
 const PORT = 3001;
 app.listen(PORT, () => {
