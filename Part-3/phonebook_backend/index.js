@@ -32,6 +32,14 @@ app.get("/api/people", (request, response) => {
     .catch((error) => next(error));
 });
 
+app.get("/api/people/:id", (request, response, nest) => {
+  Person.findById(request.params.id)
+    .then((person) => {
+      response.json(person);
+    })
+    .catch((error) => next(error));
+});
+
 app.delete("/api/people/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
     .then((result) => {
