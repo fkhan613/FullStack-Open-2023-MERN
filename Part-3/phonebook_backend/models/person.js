@@ -16,7 +16,10 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    min: [3, 'Name must be at least 3 characters long']
+  },
   number: String,
 });
 
@@ -27,5 +30,7 @@ personSchema.set("toJSON", {
     delete returnedObject.__v;
   },
 });
+
+
 
 module.exports = mongoose.model("Person", personSchema);

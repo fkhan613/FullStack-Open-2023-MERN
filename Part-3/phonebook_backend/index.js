@@ -61,9 +61,19 @@ app.post("/api/people", (request, response) => {
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    return response.json(savedPerson);
-  });
+  if (person.name.length < 3) {
+    return response.status(400).json({
+      error: "Name must be at least 3 characters long",
+    });
+  }
+
+  person
+    .save()
+    .then((savedPerson) => {
+      return response.json(savedPerson);
+    })
+    .catch((error) => next(error));
+
 });
 
 app.put("/api/people/:id", (request, response, next) => {
@@ -73,6 +83,12 @@ app.put("/api/people/:id", (request, response, next) => {
     name: body.name,
     number: body.number,
   };
+
+  if(person.name.lenght < 3){
+    return response.status(400).json({
+      error: "Name must be at least 3 characters long"
+    })
+  }
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then((updatedNote) => {
