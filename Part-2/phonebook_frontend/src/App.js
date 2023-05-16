@@ -83,6 +83,12 @@ const App = () => {
       setTimeout(() => {
         setMessage(null);
       }, 2000);
+    }).catch(error => {
+      setMessage(`${error.response.data.error}`);
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage(null);
+      }, 2000);
     });
   };
 
@@ -92,11 +98,8 @@ const App = () => {
         .remove(person.id)
         .then(() => {
           setMessage(`${person.name} removed!`);
-          console.log('updated message');
           setMessageType("success");
-          console.log("updated message type");
           setPersons(persons.filter((p) => p.id !== person.id));
-          console.log('removed user from state');
 
           setTimeout(() => {
             setMessage(null);
