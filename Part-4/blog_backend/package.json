@@ -7,8 +7,8 @@
     "nodemon": "^2.0.22"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon index.js"
   }
 }
